@@ -52,6 +52,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 - [] Models
 
     ###User
+        
         username
             -string
             -unique
@@ -74,6 +75,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
             -Create a virtual called "friendCount" that retrieves the length of the user's "friends" array field on query.
 
     ###Thought
+        
         thoughtText
             -string
             -required
@@ -96,6 +98,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
     ###Reaction (SCHEMA ONLY)
 
+      
         reactionId
             -Use Mongoose's ObjectId datatype
             -Default value is set to a new objectId
