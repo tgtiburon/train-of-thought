@@ -1,3 +1,4 @@
+
 const { Thought, User } = require('../models');
 
 const thoughtController = {
@@ -54,7 +55,15 @@ const thoughtController = {
                 res.json(dbUserData);
             })
             .catch(err => res.json(err));
-
+        
+    } ,   // For testing adding get all thoughts below
+    getAllThought(req, res) {
+        Thought.find({})
+            .then(dbUserData => res.json(dbUserData))
+            .catch(err => {
+                console.log(err);
+                res.status(400).json(err);
+            });
     }
 
 

@@ -55,7 +55,8 @@ UserSchema.virtual('friendCount').get(function() {
     // TODO: super sketchy  might not need to do this
     // reduce is an array function like map used to tally up the total of every 
     // friend
-    return this.friends.reduce((total, friends) => total + friends.length + 1, 0);
+   // return this.friends.reduce((total, friends) => total + friends.length + 1, 0);
+   return true;
 });
 
 // create the user model using the userSchema
