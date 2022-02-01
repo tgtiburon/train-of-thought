@@ -3,14 +3,19 @@ const {
         // remove first one
         getAllThought,
         addThought, 
-        removeThought 
+        removeThought,
+        addReaction,
+        removeReaction 
     
     } = require('../../controllers/thought-controller');
+    // TODO: remove later
 // remove for debugging
 // GET /api/thoughts/
 router 
     .route('/')
     .get(getAllThought)
+
+
 // POST /api/thoughts/<userId> 
 router.route('/:userId').post(addThought);
 
@@ -19,16 +24,16 @@ router.route('/:userId').post(addThought);
 // came from
 router  
     .route('/:userId/:thoughtId')
-    .put(addThought)
+    .put(addReaction)
     .delete(removeThought);
 
 
     // TODO: reactions
 // DELETE reaction
 // It's restful to include the userId (parent resource) as well as the reactionId
-// router  
-//     .route('/:userId/:reactionId')
-//     .delete(removeReaction);
+ router  
+     .route('/:userId/:reactionId')
+     .delete(removeReaction);
 
 
 module.exports = router;

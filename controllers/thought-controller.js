@@ -38,7 +38,7 @@ const thoughtController = {
         Thought.findOneAndDelete({ _id: params.thoughtId })
             .then(deletedThought => {
                 if(!deletedThought) {
-                    return res.status(404).json({ message: 'No comment with this id!' });
+                    return res.status(404).json({ message: 'No thought with this id!' });
                 }
                 return User.findOneAndUpdate( 
                     { _id: params.userId},
@@ -57,6 +57,7 @@ const thoughtController = {
             .catch(err => res.json(err));
         
     } ,   // For testing adding get all thoughts below
+    // TODO: remove later
     getAllThought(req, res) {
         Thought.find({})
             .then(dbUserData => res.json(dbUserData))
@@ -64,6 +65,40 @@ const thoughtController = {
                 console.log(err);
                 res.status(400).json(err);
             });
+    },
+    addReaction({ params, body }, res) {
+        Thought.findOneAndUpdate(
+            { _id: params.thoughtId }, 
+            { $push: { replies: body } },
+            { new: true, runValidators: true }
+        )
+            then(dbUserData => {
+                //No user
+                if(!dbUserData) {
+                    res.status(404).json({ message: 'No user found with this id!' } );
+                    return;
+                }
+                res.json(dbUserData);
+            
+            })
+            .catch(err => {
+                res.json(err);
+            })
+    },
+    removeReaction({ params }, res) {
+        Thought.findOneAndUpdate(
+            { _id: params.thoughtId },
+            // We are us9ing mongo $pull to remove the specific
+            // reaction from the reaction array
+            { $pull: { reactions: { reactionId: params.reactionId } } },
+            { new: true }
+        )
+            .then(dbUserData => {
+                res.json(dbUserData);
+            })
+            .catch(err => {
+                res.json(err);
+            })
     }
 
 

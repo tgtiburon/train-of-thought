@@ -1,4 +1,4 @@
-const res = require('express/lib/response');
+
 const { User } = require('../models');
 
 const userController = {
@@ -6,8 +6,21 @@ const userController = {
     // Because these methods will be used as callback functions
     // we will use req and res
     // get all users
+
+    // GET /api/users
     getAllUser(req, res) {
         User.find({})
+            .populate({
+                path: 'thoughts',
+                // Don't select __v. must select -__V
+                select: '-__v'  
+
+
+            }) 
+            // update the query to not include __v either
+            .select('-__v')
+            // lets sort the query by ages of the post
+            .sort({ _id: -1 })
             .then(dbUserData => res.json(dbUserData))
             .catch(err => {
                 console.log(err);
@@ -16,8 +29,18 @@ const userController = {
     },
 
     // Get one User by id
+    // GET /api/users/:id
     getUserById({ params }, res) {
         User.findOne({ _id: params.id })
+        // JOin
+            .populate({
+                path: 'thoughts',
+                // controls what is shown
+                // select:('-__v username')
+                select: ('-__v')
+            })
+            // selects which userData is shown
+            .select(('-__v'))
             .then(dbUserData => {
                 // if no user found 404
                 if (!dbUserData) {
@@ -42,7 +65,7 @@ const userController = {
     // update user by ID
     // make a call to  PUT /api/pizzas/:id
     updateUser({ params, body }, res) {
-        User.findOneAndUpdate({ _id: params.id }, body, { new:true })
+        User.findOneAndUpdate({ _id: params.id }, body, { new:true, runValidators: true })
             .then(dbUserData => {
                 if(!dbUserData) {
                     res.status(404).json({ message: 'No user found with this id!'});

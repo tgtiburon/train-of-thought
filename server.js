@@ -15,7 +15,7 @@ app.use(require('./routes'));
 
 
 // Tell mongoose which db we want to connect to MONGODB_URI will be used for heroku later.
-// Short circuites and uses localdb for now.  If there is no db with that name... mongo will
+// Short circuits and uses localdb for now.  If there is no db with that name... mongo will
 // create it.  train-of-thought is db name
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/train-of-thought', {
