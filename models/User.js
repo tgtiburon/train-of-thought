@@ -22,24 +22,29 @@ const UserSchema = new Schema(
         },
         thoughts: [
             {
-                // type: Schema.Types.ObjectId,
-                // ref: 'Thought'
+                type: Schema.Types.ObjectId,
+                // tells user model which document to look for
+                // thoughts
+                ref: 'Thought'
             }
         ],
         friends: [
             {
-                // type: Schema.Types.ObjectId,
-                // ref: 'User' 
+                type: Schema.Types.ObjectId,
+                ref: 'User' 
             }
         ]
 
     },
     {
         toJSON: {
+            // virtuals allow you to add virtual properties to a 
+            // document.  They are often computed values.
+
             virtuals: true,
             getters: true,
         },
-        // Don't send the virtual
+        // Don't send the virtual return
         id: false
     }
 
@@ -48,7 +53,7 @@ const UserSchema = new Schema(
 // User a virtual to get the friend count
 UserSchema.virtual('friendCount').get(function() {
     // TODO: super sketchy  might not need to do this
-    // reduce is an array function l9ike map used to tally up the total of every 
+    // reduce is an array function like map used to tally up the total of every 
     // friend
     return this.friends.reduce((total, friends) => total + friends.length + 1, 0);
 });
