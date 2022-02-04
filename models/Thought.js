@@ -11,7 +11,8 @@ const ReactionSchema = new Schema(
         reactionBody: {
             type: String,
             required: true,
-            //TODO: 200 char max
+            //TODO: 280 char max
+            validate: [({ length }) => length <= 280, 'Reaction should be less than 280 characters.']
         },
         username: {
             type: String,
@@ -34,8 +35,9 @@ const ThoughtSchema = new Schema(
     {
         thoughtText: {
             type: String,
-            required:'You need to enter text for your thought!'
+            required:'You need to enter text for your thought!',
             // TODO set 1 - 280 characters
+            validate: [({ length }) => length <= 280, 'Thought text should be less than 280 characters.']
         }, 
         createdAt: {
             type: Date, 

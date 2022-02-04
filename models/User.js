@@ -17,7 +17,8 @@ const UserSchema = new Schema(
             type: String,
             required: 'You need to provide a user email!',
             unique: true,
-            // TODO make user email valid with mongoose validator
+            // TODO: make user email valid with mongoose validator
+            match: [/.+@.+\..+/, 'Please enter a valid e-mail address']
 
         },
         thoughts: [

@@ -31,14 +31,14 @@ SO THAT my website can handle large amounts of unstructured data
 
 ## Acceptance Criteria
 
-- [] GIVEN a social network API
+- [x] GIVEN a social network API
 WHEN I enter the command to invoke the application
 THEN my server is started and the Mongoose models are synced to the MongoDB database
 
-- [] WHEN I open API GET routes in Insomnia for users and thoughts
+- [x] WHEN I open API GET routes in Insomnia for users and thoughts
 THEN the data for each of these routes is displayed in a formatted JSON
 
-- [] WHEN I test API POST, PUT, and DELETE routes in Insomnia
+- [x] WHEN I test API POST, PUT, and DELETE routes in Insomnia
 THEN I am able to successfully create, update, and delete users and thoughts in my database 
 
 - [] WHEN I test API POST and DELETE routes in Insomnia
@@ -49,101 +49,102 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 ## Getting Started:
 
 
-- [] Models
+-  Models
 
     ###User
         
-        username
+       [x] username
             -string
             -unique
             -required
             -trimmed
 
-        email
+        [x] email
             -string
             -required
             -unique
             -valid email address (look into mongoose's matching validation)
         
-        thoughts
+        [x] thoughts
             -an array of "_id" values referencing the  "Thought"  model
 
-        friends
+        [x] friends
             -an array of "_id"  values references the "User"  model (self-reference)
         
-        Schema Settings: 
+        [x] Schema Settings: 
             -Create a virtual called "friendCount" that retrieves the length of the user's "friends" array field on query.
 
     ###Thought
         
-        thoughtText
+        [x] thoughtText
             -string
             -required
             -1-280 characters
 
-        createdAt
+ **       [] createdAt
             -Date
             -Set default value to the current timestamp
             -Use a getter method to format the timestamp on query
 
-        username (one who created the thought)
+        [x] username (one who created the thought)
             -String
             -Required
 
-        reactions (these are like replies)
+        [x] reactions (these are like replies)
             -Array of nested documents created with the "reactionSchema"
 
-        Schema Settings
-            -Create a virtual called "reactionCount" that retrieves the length of the thought's "rections" array field on query
+        [x] Schema Settings
+            -Create a virtual called "reactionCount" that retrieves the length of the thought's "reactions" array field on query
 
     ###Reaction (SCHEMA ONLY)
 
       
-        reactionId
+        [x] reactionId
             -Use Mongoose's ObjectId datatype
             -Default value is set to a new objectId
 
-        reactionBody
+        [x] reactionBody
             -string
             -required
             -280 character max
         
-        username
+        [x] username
             -string
             -required
 
-        createdAt
+  **      [] createdAt
             -Date
             -Set default value to the current timestamp
             -User getter method to format time stamp on query
 
-        Schema Settings
+        [x] Schema Settings
             -This will not be a model, but rather will be used as the "reaction" field's subdocument schema in the "Thought" model.
 
 
     ### API Routes
         
         /api/users
-            -GET all users
-            -GET a single user
-            -POST a new user
+            [x] -GET all users
+            [x] -GET a single user
+            [x] -POST a new user
                 // example data
                 {
                     "username": "lernatino",
                     "email": "test@test.com"
                 }
-            -PUT to update user by _id
-            -DELETE to remove user by its _id
-            BONUS: Remove associated thoughts when deleted
+            [x] -PUT to update user by _id
+            [x] -DELETE to remove user by its _id
+    **      [] BONUS: Remove associated thoughts when deleted
         
         /api/users/:userId/friends/:friendId
-            -POST to a a new friend to a users friend list
-            -DELETE to remove a friend from the friends list
+    **        [] -POST to a a new friend to a users friend list
+    **        [] -DELETE to remove a friend from the friends list
 
         /api/thoughts
-            -GET all thoughts
-            -GET to get a single thought by _id
-            -POST to create a new thought (don't forget to push the created thought's _id to the associated user's "throughts" array field)
+            [x] -GET all thoughts
+            [x] -GET to get a single thought by _id
+            [x] -POST to create a new thought (don't forget to push the created  
+                 thought's  _id to the associated user's "throughts" array field)
             // example data
             {
                 "thoughtText": "Here is a cool thought",
@@ -151,27 +152,22 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
                 "userId" : "5fetzfedsjjsz088"
             }
 
-            -PUT to update a thought by its "_id"
-            -DELETE to remove a thought by its "_id"
+    **        [] -PUT to update a thought by its "_id"
+    **        [] -DELETE to remove a thought by its "_id"
 
         /api/thoughts/:thoughtId/reactions
-            -POST to create a reaction stored in a single thought's "reactions" array field
-            -DELETE to pull and remove a reaction by the reaction's "reactionId" value
+    **        [] -POST to create a reaction stored in a single thought'  
+                 "reactions"  array field
+    **        [] -DELETE to pull and remove a reaction by the reaction's   
+                    "reactionId" value
 
 
 
 
 
-- [] Use MongoDB database
+- [x] Use MongoDB database
 
-- [] Use Mongoose
-
-- [] Use dotenv
-
-- [] Use express-session -- cookie should expire after a set time.  Requiring relogging in
-
-- [] Use connect-session-sequelize
-
+- [x] Use Mongoose
 
 
 
@@ -179,7 +175,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
 
 ## Deliverables: 10%
-- [] Your GitHub repository containing your application code.
+- [x] Your GitHub repository containing your application code.
 
 
 ## Walkthrough Video: 37%
@@ -205,28 +201,28 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
 ## Technical Acceptance: 40%
 
-- [] Mongoose
+- [x] Mongoose
 
-- [] MongoDB
+- [x] MongoDB
 
-- [] User and Thought Models
+- [x] User and Thought Models
 
-- [] Schema settings for User and Thought models
+- [x] Schema settings for User and Thought models
 
-- [] Reactions as the "reaction" field's subdocument schema in thought model
+- [x] Reactions as the "reaction" field's subdocument schema in thought model
 
-- [] Uses functionality to formate queried timestamps
+- [] Uses functionality to format queried timestamps
 
 
 
 ## Repository Quality: 13%
-- [] Repository has a unique name.
+- [x] Repository has a unique name.
 
-- [] Repository follows best practices for file structure and naming conventions.
+- [x] Repository follows best practices for file structure and naming conventions.
 
-- [] Repository follows best practices for class/id naming conventions, indentation, quality comments, etc.
+- [x] Repository follows best practices for class/id naming conventions, indentation, quality comments, etc.
 
-- [] Repository contains multiple descriptive commit messages.
+- [x] Repository contains multiple descriptive commit messages.
 
 - [] Repository contains quality README file with description, screenshot, and link to walkthrough video.
 
