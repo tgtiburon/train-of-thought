@@ -28,6 +28,7 @@ const userController = {
             });
     },
 
+    
     // Get one User by id
     // GET /api/users/:id
     getUserById({ params }, res) {
