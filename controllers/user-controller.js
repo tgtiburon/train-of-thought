@@ -94,7 +94,30 @@ const userController = {
                 //console.log(err);
                 res.status(400).json(err);
             })
-    }
+    },
+
+    // TODO: working on this
+     // add Friend
+     addFriend({ params }, res) {
+        User.findOneAndUpdate(
+            { _id: params.commentId },
+            { $push: { replies: body } },
+            { new: true, runValidators: true }
+        )
+            .then(dbPizzaData => {
+                // no pizza
+                if(!dbPizzaData) {
+                    res.status(404).json({ message: 'No pizza found with this id!' });
+                    return;
+                }
+                // pizza found
+                res.json(dbPizzaData);
+            })
+            .catch(err => {
+                res.json(err);
+            })
+    },
+     
 
 
 };
