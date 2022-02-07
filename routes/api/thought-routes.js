@@ -30,16 +30,21 @@ router.route('/:userId').post(addThought);
 // came from
 router  
     .route('/:userId/:thoughtId')
-    .put(addReaction)
+  //  .put(addReaction)
     .delete(removeThought);
 
 
     // TODO: reactions
 // DELETE reaction
-// It's restful to include the userId (parent resource) as well as the reactionId
+// It's restful to include the thoughtId (parent resource) as well as the reactionId
  router  
-     .route('/:userId/:reactionId')
+     .route('/:thoughtId/reactions/:reactionId')
      .delete(removeReaction);
+
+// PUT addReaction
+router 
+    .route('/:thoughtId/reactions/')
+    .put(addReaction);
 
 
 module.exports = router;

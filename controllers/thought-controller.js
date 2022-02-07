@@ -92,18 +92,22 @@ const thoughtController = {
        
     },
     addReaction({ params, body }, res) {
+        console.log('========================')  ;
+        console.log(params);
+        console.log(params.reactionId);
+        console.log(params.thoughtId)   ;
         Thought.findOneAndUpdate(
             { _id: params.thoughtId }, 
             { $push: { reactions: body } },
             { new: true, runValidators: true }
         )
-            then(dbUserData => {
+            .then(dbThoughtData => {
                 //No user
-                if(!dbUserData) {
-                    res.status(404).json({ message: 'No user found with this id!' } );
+                if(!dbThoughtData) {
+                    res.status(404).json({ message: 'No thought found with this id!' } );
                     return;
                 }
-                res.json(dbUserData);
+                res.json(dbThoughtData);
             
             })
             .catch(err => {
@@ -115,7 +119,7 @@ const thoughtController = {
             { _id: params.thoughtId },
             // We are us9ing mongo $pull to remove the specific
             // reaction from the reaction array
-            { $pull: { reactions: { reactionId: params.reactionId } } },
+            { $pull: { reactions:  params.reactionId  } },
             { new: true }
         )
             .then(dbUserData => {

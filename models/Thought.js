@@ -50,8 +50,24 @@ const ThoughtSchema = new Schema(
             required: 'Please enter a username!',
 
         },
+        /*
+           friends: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User'//,
+                // TODO: trying unique
+               // unique: true 
+            }
+        ] 
+        */
         // TODO: Sketchy
         reactions: [ReactionSchema]
+        // reactions: [
+        //     {
+        //         type: ReactionSchema,
+        //         ref:'Thought'
+        //     }
+        // ]
     },
     {
         toJSON: {

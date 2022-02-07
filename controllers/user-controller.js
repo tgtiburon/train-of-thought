@@ -99,24 +99,56 @@ const userController = {
     // TODO: working on this
      // add Friend
      addFriend({ params }, res) {
+       //  console.log('----------------------------------------------------');
+       //  console.log("In addFriend()")
+      //   console.log(params);
         User.findOneAndUpdate(
-            { _id: params.commentId },
-            { $push: { replies: body } },
+            { _id: params.userId },
+            // try $addToSet
+            { $addToSet: { friends: params.friendId } },
             { new: true, runValidators: true }
         )
-            .then(dbPizzaData => {
+            .then(dbUserData => {
                 // no pizza
-                if(!dbPizzaData) {
-                    res.status(404).json({ message: 'No pizza found with this id!' });
+                if(!dbUserData) {
+                    res.status(404).json({ message: 'No user found with this id!' });
                     return;
                 }
                 // pizza found
-                res.json(dbPizzaData);
+            //    console.log("Should be greg");
+            //    console.log(dbUserData);
+                res.json(dbUserData);
             })
             .catch(err => {
                 res.json(err);
             })
     },
+      // TODO: working on this
+     // remove  Friend
+     deleteFriend({ params }, res) {
+      //  console.log('----------------------------------------------------');
+      //  console.log("In removeFriend()")
+      //  console.log(params);
+       User.findOneAndUpdate(
+           { _id: params.userId },
+           { $pull: { friends: params.friendId } },
+           { new: true }
+       )
+           .then(dbUserData => {
+               // no pizza
+               if(!dbUserData) {
+                   res.status(404).json({ message: 'No user found with this id!' });
+                   return;
+               }
+               // pizza found
+               console.log("Should be greg");
+               console.log(dbUserData);
+               res.json(dbUserData);
+           })
+           .catch(err => {
+               res.json(err);
+           })
+   }
      
 
 

@@ -137,8 +137,8 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
     **      [] BONUS: Remove associated thoughts when deleted
         
         /api/users/:userId/friends/:friendId
-    **        [] -POST to a a new friend to a users friend list
-    **        [] -DELETE to remove a friend from the friends list
+    **        [x] -POST to a a new friend to a users friend list
+    **        [x] -DELETE to remove a friend from the friends list
 
         /api/thoughts
             [x] -GET all thoughts
