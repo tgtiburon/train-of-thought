@@ -156,9 +156,9 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
     **        [] -DELETE to remove a thought by its "_id"
 
         /api/thoughts/:thoughtId/reactions
-    **        [] -POST to create a reaction stored in a single thought'  
+    **        [x] -POST to create a reaction stored in a single thought'  
                  "reactions"  array field
-    **        [] -DELETE to pull and remove a reaction by the reaction's   
+    **        [x] -DELETE to pull and remove a reaction by the reaction's   
                     "reactionId" value
 
 
