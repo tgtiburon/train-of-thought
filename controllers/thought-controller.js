@@ -10,15 +10,19 @@ const thoughtController = {
     addThought({  body }, res) {
        // console.log(body);
        Thought.create(body)
+       // TODO: Maybe use just body??
+
             .then(({ _id }) => {
-                console.log(_id);
+                console.log('------------------------------------------')
+                console.log('_id ====>' ,_id);
+                console.log(body);
                 return User.findOneAndUpdate(
-                    { _id: userId },
+                    { _id:body.userId },
                     // $push adds to the array
                     { $push: { thoughts: _id } },
                     // returning the user promise so we can do something
                     // with the results
-                    { new: true }
+                    { new: true, runValidators: true }
                 );
             })
             .then((dbUserData) => {
@@ -89,12 +93,14 @@ const thoughtController = {
                 if(!deletedThought) {
                     return res.status(404).json({ message: 'No thought with this id!' });
                 }
-                return User.findOneAndUpdate( 
-                    { _id: params.thoughtId},
-                    // removes that specific thought with $pull
-                    { $pull: {thoughts: params.thoughtId } },
-                    { new: true }
-                );
+                res.status(200).json({ message: 'Thought deleted!'});
+                
+                // return User.findOneAndUpdate( 
+                //     { _id: params.thoughtId},
+                //     // removes that specific thought with $pull
+                //     { $pull: {thoughts: params.thoughtId } },
+                //     { new: true }
+                // );
             })
             // .then(dbUserData => {
             //     if(!dbUserData) {

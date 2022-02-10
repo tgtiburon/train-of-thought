@@ -1,5 +1,6 @@
 
-const { User } = require('../models');
+const { User, Thought } = require('../models');
+const { db } = require('../models/User');
 
 const userController = {
     // Functions will go in here
@@ -10,13 +11,16 @@ const userController = {
     // GET /api/users
     getAllUser(req, res) {
         User.find({})
-            .populate({
-                path: 'thoughts',
+        // TODO: shows thoughts?
+
+          //.populate({
+               // path: 'thoughts',
+              //  path: 'friends',
                 // Don't select __v. must select -__V
-                select: '-__v'  
+              //  select: '-__v'  
 
 
-            }) 
+          //  }) 
             // update the query to not include __v either
             .select('-__v')
             // lets sort the query by ages of the post
@@ -36,6 +40,12 @@ const userController = {
         // JOin
             .populate({
                 path: 'thoughts',
+                // controls what is shown
+                // select:('-__v username')
+                select: ('-__v')
+            })
+            .populate({
+                path: 'friends',
                 // controls what is shown
                 // select:('-__v username')
                 select: ('-__v')
@@ -88,11 +98,38 @@ const userController = {
                 res.status(404).json({ message: 'No user with this id!' });
                 return;
                 }
-                //res.json(dbUserData);
-                res.json({ message: 'User and associated thoughts deleted.'});
+                // Removes all thoughts tied to the user we are deleting
+                Thought.deleteMany(
+                    { username: dbUserData.username }
+                    )
+
+                    .then(() => {
+                        // uses $pull to delete the user id from their friend's friend array
+                        User.updateMany(
+                            { _id: { $in: dbUserData.friends } },
+                            { $pull: { friends: params.id } }
+                        )
+                     
+                        .then(()=> {
+                            res.json({ message: "User and associated thoughts deleted" });
+                        })
+                        // Catch for User.updateMany
+                            .catch((err) => {
+                                console.log("Failed to remove friends associated with deleted user.");
+                                res.status(400).json(err);
+                            });
+                        
+                    })
+                    // Catch for Thought.deleteMany
+                        .catch((err) => {
+                            console.log("Failed to delete thoughts.");
+                            res.status(400).json(err);
+                        });
+
             })
+            // Catch for findOneAndDelete
             .catch(err => {
-                //console.log(err);
+                console.log("Failed to find and delete user");
                 res.status(400).json(err);
             })
     },
