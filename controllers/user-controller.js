@@ -88,7 +88,8 @@ const userController = {
                 res.status(404).json({ message: 'No user with this id!' });
                 return;
                 }
-                res.json(dbUserData);
+                //res.json(dbUserData);
+                res.json({ message: 'User and associated thoughts deleted.'});
             })
             .catch(err => {
                 //console.log(err);

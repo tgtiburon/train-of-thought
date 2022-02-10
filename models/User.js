@@ -27,6 +27,7 @@ const UserSchema = new Schema(
                 // tells user model which document to look for
                 // thoughts
                 ref: 'Thought'
+               
             }
         ],
         friends: [

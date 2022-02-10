@@ -15,7 +15,8 @@ const {
 // GET /api/thoughts/
 router 
     .route('/')
-    .get(getAllThought)
+    .post(addThought)
+    .get(getAllThought);
 
 // GET /api/thoughts/:thoughtId
 router  
@@ -26,16 +27,16 @@ router
 
 
 // POST /api/thoughts/<userId> 
-router.route('/:userId').post(addThought);
+//router.route('/:userId').post(addThought);
 
 // TODO: delete the below I think
 // DELETE /api/thoughts/<userId>/<thoughtId>
 // need both params because we need to know the comment and the user it 
 // came from
-router  
-    .route('/:userId/:thoughtId')
-    .put(updateThought)
-    .delete(removeThought);
+//router  
+  //  .route('/:userId/:thoughtId')
+  //  .put(updateThought)
+  //  .delete(removeThought);
 // TODO: use this
 // router  
 //     .route('/:thoughtId')

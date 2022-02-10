@@ -2,6 +2,8 @@ const { Schema, model, Types } = require('mongoose');
 
 const formatDate = require('../utils/formatDate');
 
+// Since reaction only exist attached to thoughts we do not bother
+// to make it it's own model.
 const ReactionSchema = new Schema(
     {
         reactionId: {
@@ -10,13 +12,13 @@ const ReactionSchema = new Schema(
         },
         reactionBody: {
             type: String,
-            required: true,
+            required: 'You need to enter a body for your reaction.',
             //TODO: 280 char max
             validate: [({ length }) => length <= 280, 'Reaction should be less than 280 characters.']
         },
         username: {
             type: String,
-            required: true
+            required: 'You need to enter a username.'   
         },
         createdAt: {
             type: Date,
@@ -50,24 +52,10 @@ const ThoughtSchema = new Schema(
             required: 'Please enter a username!',
 
         },
-        /*
-           friends: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'User'//,
-                // TODO: trying unique
-               // unique: true 
-            }
-        ] 
-        */
+
         // TODO: Sketchy
         reactions: [ReactionSchema]
-        // reactions: [
-        //     {
-        //         type: ReactionSchema,
-        //         ref:'Thought'
-        //     }
-        // ]
+      
     },
     {
         toJSON: {

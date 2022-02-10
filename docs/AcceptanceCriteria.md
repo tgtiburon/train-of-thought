@@ -38,7 +38,7 @@ THEN my server is started and the Mongoose models are synced to the MongoDB data
 - [x] WHEN I open API GET routes in Insomnia for users and thoughts
 THEN the data for each of these routes is displayed in a formatted JSON
 
-- [x] WHEN I test API POST, PUT, and DELETE routes in Insomnia
+- [] WHEN I test API POST, PUT, and DELETE routes in Insomnia
 THEN I am able to successfully create, update, and delete users and thoughts in my database 
 
 - [] WHEN I test API POST and DELETE routes in Insomnia
@@ -51,7 +51,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
 -  Models
 
-    ###User
+  x  ###User
         
        [x] username
             -string
@@ -81,7 +81,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
             -required
             -1-280 characters
 
- **       [] createdAt
+ **     [x] createdAt
             -Date
             -Set default value to the current timestamp
             -Use a getter method to format the timestamp on query
@@ -112,7 +112,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
             -string
             -required
 
-  **      [] createdAt
+  **    [x] createdAt
             -Date
             -Set default value to the current timestamp
             -User getter method to format time stamp on query
@@ -137,7 +137,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
     **      [] BONUS: Remove associated thoughts when deleted
         
         /api/users/:userId/friends/:friendId
-    **        [x] -POST to a a new friend to a users friend list
+              [x] -POST to a a new friend to a users friend list
     **        [x] -DELETE to remove a friend from the friends list
 
         /api/thoughts
@@ -156,9 +156,9 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
     **        [] -DELETE to remove a thought by its "_id"
 
         /api/thoughts/:thoughtId/reactions
-    **        [x] -POST to create a reaction stored in a single thought'  
+    **        [] -POST to create a reaction stored in a single thought'  
                  "reactions"  array field
-    **        [x] -DELETE to pull and remove a reaction by the reaction's   
+    **        [] -DELETE to pull and remove a reaction by the reaction's   
                     "reactionId" value
 
 
@@ -211,7 +211,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
 - [x] Reactions as the "reaction" field's subdocument schema in thought model
 
-- [] Uses functionality to format queried timestamps
+- [x] Uses functionality to format queried timestamps
 
 
 
