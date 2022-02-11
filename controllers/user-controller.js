@@ -124,8 +124,8 @@ const userController = {
                         //     { $pull: { friends: params.id } }
                         // )
                         Thought.deleteMany(
-                            { username:{ $in: dbUserData.username }}
-                            // { _id: {$in: dbUserData.thoughts }}
+                          //  { username:{ $in: dbUserData.username }}
+                             { _id: {$in: dbUserData.thoughts }}
                             )
                      
                         .then(()=> {
