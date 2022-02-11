@@ -155,7 +155,7 @@ const thoughtController = {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId }, 
             { $push: { reactions: body } },
-            { new: true}  //, runValidators: true }
+            { new: true, runValidators: true}  //, runValidators: true }
         )
             .populate({
                 path:'reactions',

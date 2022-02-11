@@ -8,13 +8,13 @@ const ReactionSchema = new Schema(
     {
         reactionId: {
             type: Schema.Types.ObjectId,
-            default: () => new Types.ObjectId()
+            default: () => new Types.ObjectId() 
         },
         reactionBody: {
             type: String,
-            required: 'You need to enter a body for your reaction.',
-            //TODO: 280 char max
-            validate: [({ length }) => length <= 280, 'Reaction should be less than 280 characters.']
+           required: true,
+           minlength: [1, 'Enter a reaction body please!'],
+           maxlength: [280, "Enter a reaction body less than 280 characters please!"]
         },
         username: {
             type: String,
@@ -39,7 +39,9 @@ const ThoughtSchema = new Schema(
             type: String,
             required:'You need to enter text for your thought!',
             // TODO set 1 - 280 characters
-            validate: [({ length }) => length <= 280, 'Thought text should be less than 280 characters.']
+           // validate: [({ length }) => length <= 280, 'Thought text should be less than 280 characters.']
+           minlength: [1, 'Enter a thought please!'],
+           maxlength: [280, "Enter a thought less than 280 characters please!"]
         }, 
         createdAt: {
             type: Date, 

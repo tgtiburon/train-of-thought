@@ -141,9 +141,9 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
     **       - [x] -DELETE to remove a friend from the friends list
 
         /api/thoughts
-            -[] -GET all thoughts
-            -[] -GET to get a single thought by _id
-            -[] -POST to create a new thought (don't forget to push the created  
+            -[x] -GET all thoughts
+            -[x] -GET to get a single thought by _id
+            -[x] -POST to create a new thought (don't forget to push the created  
                  thought's  _id to the associated user's "thoughts" array field)
             // example data
             {
@@ -152,8 +152,8 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
                 "userId" : "5fetzfedsjjsz088"
             }
 
-    **       - [] -PUT to update a thought by its "_id"
-    **        -[] -DELETE to remove a thought by its "_id"
+    **       - [x] -PUT to update a thought by its "_id"
+    **        -[x] -DELETE to remove a thought by its "_id"
 
         /api/thoughts/:thoughtId/reactions
     **       - [] -POST to create a reaction stored in a single thought'  
