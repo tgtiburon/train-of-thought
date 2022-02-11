@@ -156,9 +156,9 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
     **        -[x] -DELETE to remove a thought by its "_id"
 
         /api/thoughts/:thoughtId/reactions
-    **       - [] -POST to create a reaction stored in a single thought'  
+    **       - [x] -POST to create a reaction stored in a single thought'  
                  "reactions"  array field
-    **       - [] -DELETE to pull and remove a reaction by the reaction's   
+    **       - [x] -DELETE to pull and remove a reaction by the reaction's   
                     "reactionId" value
 
 
@@ -182,19 +182,19 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
     -Link included in README.md
 
-    - [] Shows all technical acceptance criteria being met.
+    -- [x] Shows all technical acceptance criteria being met.
 
-    - [] How to start the server
+    -- [x] How to start the server
 
-    - [] GET routes for all Users and Thoughts being tested in insomnia
+    -- [x] GET routes for all Users and Thoughts being tested in insomnia
 
-    - [] GET routes for single user and single thoughts in insomnia
+    -- [x] GET routes for single user and single thoughts in insomnia
 
-     -[] POST, PUT, DELETE routes for users and thoughts in insomnia
+     --[x] POST, PUT, DELETE routes for users and thoughts in insomnia
 
-    - [] POST and DELETE routes for user's friend list in insomnia
+    -- [x] POST and DELETE routes for user's friend list in insomnia
 
-    - [] POST and DELETE routes for reactions to thoughts being tested in insomnia
+    - [x] POST and DELETE routes for reactions to thoughts being tested in insomnia
     
     
 
