@@ -1,6 +1,6 @@
 
 const { User, Thought } = require('../models');
-const { db } = require('../models/User');
+//const { db } = require('../models/User');
 
 const userController = {
     // Functions will go in here
@@ -11,16 +11,7 @@ const userController = {
     // GET /api/users
     getAllUser(req, res) {
         User.find({})
-        // TODO: shows thoughts?
-
-          //.populate({
-               // path: 'thoughts',
-              //  path: 'friends',
-                // Don't select __v. must select -__V
-              //  select: '-__v'  
-
-
-          //  }) 
+       
             // update the query to not include __v either
             .select('-__v')
             // lets sort the query by ages of the post
@@ -80,7 +71,7 @@ const userController = {
     },
 
     // update user by ID
-    // make a call to  PUT /api/pizzas/:id
+    //  PUT /api/users/:id
     updateUser({ params, body }, res) {
         User.findOneAndUpdate({ _id: params.id }, body, { new:true, runValidators: true })
             .then(dbUserData => {
@@ -97,6 +88,7 @@ const userController = {
 
     },
     // delete user
+    // DELETE  /api/users/:id
     deleteUser({ params }, res) {
         User.findOneAndDelete({ _id: params.id })
             .then(dbUserData => {
@@ -104,43 +96,32 @@ const userController = {
                 res.status(404).json({ message: 'No user with this id!' });
                 return;
                 }
-                // Removes all thoughts tied to the user we are deleting
-                // Thought.deleteMany(
-                //     { username: dbUserData.username }
-                //     )
+              
                 User.updateMany(
                     { _id: { $in: dbUserData.friends } },
+                    // Uses pull to remove the id from friend array
                     { $pull: { friends: params.id } }
                 )
-
                     .then(() => {
-                        
-                        console.log("dbuserdata.friends=====>", dbUserData.friends);
-                        console.log(dbUserData);
-                        // uses $pull to delete the user id from their friend's friend array
-                        // updateMany ( <filter>, <update> )
-                        // User.updateMany(
-                        //     { _id: { $in: dbUserData.friends } },
-                        //     { $pull: { friends: params.id } }
-                        // )
+                        // Delete the thoughts that have that user's id
                         Thought.deleteMany(
-                          //  { username:{ $in: dbUserData.username }}
+                       
                              { _id: {$in: dbUserData.thoughts }}
                             )
                      
                         .then(()=> {
                             res.json({ message: "User and associated thoughts deleted" });
                         })
-                        // Catch for User.updateMany
+                        // Catch for thought.deleteMany
                             .catch((err) => {
-                                console.log("Failed to remove friends associated with deleted user.");
+                                console.log("Failed to remove thought associated with deleted user.");
                                 res.status(400).json(err);
                             });
                         
                     })
-                    // Catch for Thought.deleteMany
+                    // Catch for User.updateMany
                         .catch((err) => {
-                            console.log("Failed to delete thoughts.");
+                            console.log("Failed to delete friend associated with that user.");
                             res.status(400).json(err);
                         });
 
@@ -152,18 +133,19 @@ const userController = {
             })
     },
 
-    // TODO: working on this
+  
      // add Friend
+     //  POST /api/users/:userId/friends/:friendId
      addFriend({ params }, res) {
     
         User.findOneAndUpdate(
             { _id: params.userId },
-            // try $addToSet
+            // $addToSet only adds if not already there
             { $addToSet: { friends: params.friendId } },
             { new: true, runValidators: true }
         )
             .then(dbUserData => {
-                // no pizza
+                // no user found
                 if(!dbUserData) {
                     res.status(404).json({ message: 'No user found with this id!' });
                     return;
@@ -177,6 +159,8 @@ const userController = {
     },
     
      // remove  Friend
+     // DELETE /api/users/:userId/friends/:friendId
+
      deleteFriend({ params }, res) {
     
        User.findOneAndUpdate(
@@ -185,14 +169,12 @@ const userController = {
            { new: true }
        )
            .then(dbUserData => {
-               // no pizza
+               // no user
                if(!dbUserData) {
                    res.status(404).json({ message: 'No user found with this id!' });
                    return;
                }
-               // pizza found
-               console.log("Should be greg");
-               console.log(dbUserData);
+              // User found
                res.json(dbUserData);
            })
            .catch(err => {
@@ -200,8 +182,6 @@ const userController = {
            })
    }
      
-
-
 };
 
 

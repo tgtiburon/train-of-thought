@@ -1,12 +1,15 @@
+// Requires
 const express = require('express');
 const mongoose = require('mongoose');
 
+// Load express and set it's port
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 
 //Public folder for website
+// App does not need these yet, but will when I add a front end to it.
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 

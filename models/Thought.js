@@ -1,3 +1,4 @@
+// requires
 const { Schema, model, Types } = require('mongoose');
 
 const formatDate = require('../utils/formatDate');
@@ -33,19 +34,19 @@ const ReactionSchema = new Schema(
     }
 );
 
+// Set up the Schema for Thought model
 const ThoughtSchema = new Schema(
     {
         thoughtText: {
             type: String,
             required:'You need to enter text for your thought!',
-            // TODO set 1 - 280 characters
-           // validate: [({ length }) => length <= 280, 'Thought text should be less than 280 characters.']
-           minlength: [1, 'Enter a thought please!'],
-           maxlength: [280, "Enter a thought less than 280 characters please!"]
+            minlength: [1, 'Enter a thought please!'],
+            maxlength: [280, "Enter a thought less than 280 characters please!"]
         }, 
         createdAt: {
             type: Date, 
             default: Date.now,
+            // call my own formatDate function
             get: createdAtValue => formatDate(createdAtValue)
         },
         // One who created the thought
@@ -54,8 +55,7 @@ const ThoughtSchema = new Schema(
             required: 'Please enter a username!',
 
         },
-
-        // TODO: Sketchy
+        // Reactions use the ReactionSchema
         reactions: [ReactionSchema]
       
     },
@@ -72,7 +72,7 @@ const ThoughtSchema = new Schema(
 
 // Add a virtual function for Reaction Schema to get total reactions
 ThoughtSchema.virtual('reactionCount').get(function() {
-    // TODO: super sketchy
+   // return the length of the array => reactioncount
     return this.reactions.length;
 });
 

@@ -7,21 +7,17 @@ const thoughtController = {
     // we will use req and res
 
     // add thought to user
+    // POST /api/thoughts/
     addThought({  body }, res) {
-       // console.log(body);
+       
        Thought.create(body)
-       // TODO: Maybe use just body??
-
+    
             .then(({ _id }) => {
-                console.log('------------------------------------------')
-                console.log('_id ====>' ,_id);
-                console.log(body);
+              // Push the thoughtId onto the user object
                 return User.findOneAndUpdate(
                     { _id:body.userId },
                     // $push adds to the array
                     { $push: { thoughts: _id } },
-                    // returning the user promise so we can do something
-                    // with the results
                     { new: true, runValidators: true }
                 );
             })
@@ -30,60 +26,43 @@ const thoughtController = {
                   return res.status(404).json({ message: 'No user with that id found!'});
                     
                 }
-                // returning the updated userdata
-               // console.log('userdata ' , dbUserData);
-               // res.status(200).json(dbUserData);
+            
                 res.json({ message: 'Thought successfully created.'});
             })
             .catch(err => {
+                // thought failed
                 res.json(err);
             })
     },
     // api/thoughts/:id 
      // add thought to user
      updateThought({ params, body }, res) {
-       // console.log(body);
-      //  console.log(params);
+   
         Thought.findOneAndUpdate(
             {_id: params.thoughtId },
             {$set: body},
             {new: true , runValidators: true}
 
         )
-            // .populate({
-            //     path: 'reactions',
-            //     select: '-__v'
-            // })
-           // .select('-__v')
-
+         
             .then((dbThoughtData)  => {
-               // console.log(dbThoughtData);
+                // no thought found
                if(!dbThoughtData) {
                    res.status(404).json({ message: 'No thought with that id found!'});
                    return;
                }
-              // res.json(dbThoughtData);
+              // thought updated
               res.json({ message: 'Thought successfully updated.'});
             })
-            // .then(dbUserData => {
-            //     if(!dbUserData) {
-            //         res.status(404).json({ message: 'No user with that id found!'});
-            //         return;
-            //     }
-            //     // returning the updated userdata
-            //     res.json(dbUserData);
-            // })
             .catch(err => {
                 res.status(400).json(err);
             })
     },
 
 
-
-
-
     // remove Thought from user
-    // TODO:   Why with the { params }    instead of req?  Save memory? Faster?
+  
+    // DELETE /api/thoughts/:thoughtId
     removeThought({ params }, res) {
         console.log(params);
         Thought.findOneAndDelete({ _id: params.thoughtId })
@@ -93,16 +72,14 @@ const thoughtController = {
                     res.status(404).json({ message: 'No thought with this id!' });
                     return;
                 }
-           
-
+                // Find the user with the thought
                  User.findOneAndUpdate( 
-                     // TODO: _id: ? userId or userName or thoughtId
+                    
                      { thoughts: params.thoughtId },
                      // removes that specific thought with $pull
                      { $pull: { thoughts: params.thoughtId } },
                      { new: true }
                  )
-                 // This then was wrong!!
                  .then(dbUserData => {
                     if(!dbUserData) {
                         res.status(404).json({ message: 'No user with that id found!' } );
@@ -115,8 +92,10 @@ const thoughtController = {
            
             .catch(err => res.json(err));
         
-    } ,   // For testing adding get all thoughts below
-    // TODO: remove later
+    } ,   
+
+
+   // GET /api/thoughts/
     getAllThought(req, res) {
         Thought.find({})
             .sort({ _id: -1 })
@@ -126,6 +105,8 @@ const thoughtController = {
                 res.status(400).json(err);
             });
     },
+
+    // GET /api/thoughts/:thoughtId
     getThoughtById({params}, res) {
         Thought.findOne({ _id: params.thoughtId})
              .populate({
@@ -147,27 +128,27 @@ const thoughtController = {
 
        
     },
+    // POST /api/thoughts/:thoughtId/reactions/
     addReaction({ params, body }, res) {
-     //   console.log('========================')  ;
-      //  console.log(params);
-      //  console.log(params.reactionId);
-      //  console.log(params.thoughtId)   ;
+        // Find the thought and push the reaction body on to it.
         Thought.findOneAndUpdate(
             { _id: params.thoughtId }, 
             { $push: { reactions: body } },
-            { new: true, runValidators: true}  //, runValidators: true }
+            { new: true, runValidators: true}  
         )
+        // Join the reaction schema to the thought
             .populate({
                 path:'reactions',
                 select: '-__v'
             })
             .select('-__v')
             .then(dbThoughtData => {
-                //No user
+                //No thought
                 if(!dbThoughtData) {
                     res.status(404).json({ message: 'No thought found with this id!' } );
                     return;
                 }
+                // worked 
                 res.json(dbThoughtData);
             
             })
@@ -175,11 +156,13 @@ const thoughtController = {
                 res.json(err);
             })
     },
+
+    // DELETE  /api/thoughts/:thoughtId/reactions/:reactionId
     removeReaction({ params }, res) {
         console.log(params);
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
-            // We are us9ing mongo $pull to remove the specific
+            // We are using mongo $pull to remove the specific
             // reaction from the reaction array
             { $pull: { reactions:{ reactionId: params.reactionId  }} },
             { new: true }
@@ -195,7 +178,6 @@ const thoughtController = {
                 res.status(400).json(err);
             })
     }
-
 
 };
 

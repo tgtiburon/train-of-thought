@@ -224,18 +224,18 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
 - [x] Repository contains multiple descriptive commit messages.
 
-- [] Repository contains quality README file with description, screenshot, and link to walkthrough video.
+- [x] Repository contains quality README file with description, screenshot, and link to walkthrough video.
 
 ## Bonus: 10 points
  
- - [] Application deletes a user's associated thoughts when the user is deleted.
+ - [x] Application deletes a user's associated thoughts when the user is deleted.
 
 
 
 
 ## How to Submit the Challenge
-- [] You are required to submit BOTH of the following for review:
+- [x] You are required to submit BOTH of the following for review:
 
-- [] A walkthrough video demonstrating the app
+- [x] A walkthrough video demonstrating the app
 
-- [] The URL of the GitHub repository.
+- [x] The URL of the GitHub repository.

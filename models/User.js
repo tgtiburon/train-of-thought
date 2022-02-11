@@ -1,8 +1,10 @@
 
-// I don't think I need Types
-//const { Schema, model, Types }   = require('mongoose');
+
+// Requires
 const { Schema, model }   = require('mongoose');
-const formatDate = require('../utils/formatDate');
+
+
+//const formatDate = require('../utils/formatDate');
 
 
 const UserSchema = new Schema(
@@ -17,7 +19,7 @@ const UserSchema = new Schema(
             type: String,
             required: 'You need to provide a user email!',
             unique: true,
-            // TODO: make user email valid with mongoose validator
+            // Simple regex to test for valid email
             match: [/.+@.+\..+/, 'Please enter a valid e-mail address']
 
         },
@@ -34,8 +36,7 @@ const UserSchema = new Schema(
             {
                 type: Schema.Types.ObjectId,
                 ref: 'User'//,
-                // TODO: trying unique
-               // unique: true 
+               
             }
         ]
 
@@ -56,9 +57,7 @@ const UserSchema = new Schema(
 
 // User a virtual to get the friend count
 UserSchema.virtual('friendCount').get(function() {
-    // TODO: super sketchy  might not need to do this
-    // reduce is an array function like map used to tally up the total of every 
-    // friend
+   // return the length of the array => friendcount
     return this.friends.length;
  
 });
