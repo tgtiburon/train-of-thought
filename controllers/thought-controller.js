@@ -83,38 +83,43 @@ const thoughtController = {
 
 
     // remove Thought from user
+    // TODO:   Why with the { params }    instead of req?  Save memory? Faster?
     removeThought({ params }, res) {
         console.log(params);
         Thought.findOneAndDelete({ _id: params.thoughtId })
             .then(deletedThought => {
-                console.log('-------------------------------');
-                console.log(deletedThought);
-
+               
                 if(!deletedThought) {
-                    return res.status(404).json({ message: 'No thought with this id!' });
+                    res.status(404).json({ message: 'No thought with this id!' });
+                    return;
                 }
-                res.status(200).json({ message: 'Thought deleted!'});
-                
-                // return User.findOneAndUpdate( 
-                //     { _id: params.thoughtId},
-                //     // removes that specific thought with $pull
-                //     { $pull: {thoughts: params.thoughtId } },
-                //     { new: true }
-                // );
+           
+
+                 User.findOneAndUpdate( 
+                     // TODO: _id: ? userId or userName or thoughtId
+                     { thoughts: params.thoughtId },
+                     // removes that specific thought with $pull
+                     { $pull: { thoughts: params.thoughtId } },
+                     { new: true }
+                 )
+                 // This then was wrong!!
+                 .then(dbUserData => {
+                    if(!dbUserData) {
+                        res.status(404).json({ message: 'No user with that id found!' } );
+                        return;
+                    }
+                    res.json({ message: 'Thought and ties to user deleted. ' });
+                })
+
             })
-            // .then(dbUserData => {
-            //     if(!dbUserData) {
-            //         res.status(404).json({ message: 'No user with that id found!' } );
-            //         return;
-            //     }
-            //     res.json(dbUserData);
-            // })
+           
             .catch(err => res.json(err));
         
     } ,   // For testing adding get all thoughts below
     // TODO: remove later
     getAllThought(req, res) {
         Thought.find({})
+            .sort({ _id: -1 })
             .then(dbUserData => res.json(dbUserData))
             .catch(err => {
                 console.log(err);

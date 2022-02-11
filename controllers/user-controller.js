@@ -69,8 +69,14 @@ const userController = {
 
     createUser({ body }, res) {
         User.create(body)
-            .then(dbUserData => res.json(dbUserData))
-            .catch(err=> res.status(400).json(err));
+            .then(dbUserData =>  {
+               
+               res.json(dbUserData);
+            })
+            .catch(err=> {
+                res.status(400).json( { message: 'Problem creating username. Name possibly already taken.'});
+            
+            });
     },
 
     // update user by ID
@@ -99,16 +105,28 @@ const userController = {
                 return;
                 }
                 // Removes all thoughts tied to the user we are deleting
-                Thought.deleteMany(
-                    { username: dbUserData.username }
-                    )
+                // Thought.deleteMany(
+                //     { username: dbUserData.username }
+                //     )
+                User.updateMany(
+                    { _id: { $in: dbUserData.friends } },
+                    { $pull: { friends: params.id } }
+                )
 
                     .then(() => {
+                        
+                        console.log("dbuserdata.friends=====>", dbUserData.friends);
+                        console.log(dbUserData);
                         // uses $pull to delete the user id from their friend's friend array
-                        User.updateMany(
-                            { _id: { $in: dbUserData.friends } },
-                            { $pull: { friends: params.id } }
-                        )
+                        // updateMany ( <filter>, <update> )
+                        // User.updateMany(
+                        //     { _id: { $in: dbUserData.friends } },
+                        //     { $pull: { friends: params.id } }
+                        // )
+                        Thought.deleteMany(
+                            { username:{ $in: dbUserData.username }}
+                            // { _id: {$in: dbUserData.thoughts }}
+                            )
                      
                         .then(()=> {
                             res.json({ message: "User and associated thoughts deleted" });
@@ -137,9 +155,7 @@ const userController = {
     // TODO: working on this
      // add Friend
      addFriend({ params }, res) {
-       //  console.log('----------------------------------------------------');
-       //  console.log("In addFriend()")
-      //   console.log(params);
+    
         User.findOneAndUpdate(
             { _id: params.userId },
             // try $addToSet
@@ -152,21 +168,17 @@ const userController = {
                     res.status(404).json({ message: 'No user found with this id!' });
                     return;
                 }
-                // pizza found
-            //    console.log("Should be greg");
-            //    console.log(dbUserData);
+          
                 res.json(dbUserData);
             })
             .catch(err => {
                 res.json(err);
             })
     },
-      // TODO: working on this
+    
      // remove  Friend
      deleteFriend({ params }, res) {
-      //  console.log('----------------------------------------------------');
-      //  console.log("In removeFriend()")
-      //  console.log(params);
+    
        User.findOneAndUpdate(
            { _id: params.userId },
            { $pull: { friends: params.friendId } },

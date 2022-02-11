@@ -38,10 +38,10 @@ THEN my server is started and the Mongoose models are synced to the MongoDB data
 - [x] WHEN I open API GET routes in Insomnia for users and thoughts
 THEN the data for each of these routes is displayed in a formatted JSON
 
-- [] WHEN I test API POST, PUT, and DELETE routes in Insomnia
+- [x] WHEN I test API POST, PUT, and DELETE routes in Insomnia
 THEN I am able to successfully create, update, and delete users and thoughts in my database 
 
-- [] WHEN I test API POST and DELETE routes in Insomnia
+- [x] WHEN I test API POST and DELETE routes in Insomnia
 THEN I am able to successfully create and delete reactions to thoughts and add and remove friends to a user’s friend list
 
 
@@ -124,17 +124,17 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
     ### API Routes
         
         /api/users
-           - [] -GET all users
-           - [] -GET a single user
-           - [] -POST a new user
+           - [x] -GET all users
+           - [x] -GET a single user
+           - [x] -POST a new user
                 // example data
                 {
                     "username": "lernatino",
                     "email": "test@test.com"
                 }
-           - [] -PUT to update user by _id
-           - [] -DELETE to remove user by its _id
-    **      [] BONUS: Remove associated thoughts when deleted
+           - [x] -PUT to update user by _id
+           - [x] -DELETE to remove user by its _id
+    **     - [x] BONUS: Remove associated thoughts when deleted
         
         /api/users/:userId/friends/:friendId
               -[] -POST to a a new friend to a users friend list
